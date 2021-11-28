@@ -39,7 +39,7 @@ if [[ -d "/userdata/system/pixelcade" ]]; then
                 printf "${magenta}Your Pixelcade version is already up to date. If you continue, your Pixelcade installation will be deleted including any custom artwork you've added, do you want to re-install? (y/n): ${white}"
                 read yn
                 case $yn in
-                    [Yy]* ) cd /userdata/system && rm -r pixelcade; break;;
+                    [Yy]* ) rm -rf /userdata/system/pixelcade; break;;
                     [Nn]* ) exit; break;;
                     * ) echo "Please answer y or n";;
                 esac
@@ -50,7 +50,7 @@ if [[ -d "/userdata/system/pixelcade" ]]; then
            printf "${magenta}Your existing Pixelcade installation will be deleted including any custom artwork you've added, do you want to re-install? (y/n): ${white}"
            read yn
            case $yn in
-               [Yy]* ) cd /userdata/system && rm -r pixelcade; break;;
+               [Yy]* ) rm -rf /userdata/system/pixelcade; break;;
                [Nn]* ) exit; break;;
                * ) echo "Please answer y or n";;
            esac
@@ -102,12 +102,13 @@ unzip -q master.zip
 mv pixelcade-master/ pixelcade
 rm -f master.zip
 
-cd /userdata/system/pixelcade
-JAVA_HOME=/userdata/jdk/ /userdata/jdk/jre/bin/java -jar pixelweb.jar -b & #run pixelweb in the background
+curl -kLo /userdata/system/scripts/pixelcade.sh https://raw.githubusercontent.com/ACustomArcade/batocera-pixelcade/main/userdata/system/scripts/pixelcade.sh
+chmod +x /userdata/system/scripts/pixelcade.sh
+
+JAVA_HOME=/userdata/jdk/ /userdata/jdk/jre/bin/java -jar /userdata/system/pixelcade/pixelweb.jar -b & #run pixelweb in the background
 
 sleep 5
-cd /userdata/system/pixelcade
-JAVA_HOME=/userdata/jdk/ /userdata/jdk/jre/bin/java -jar pixelcade.jar -m stream -c animations -g 0arcade-legendsr2
+JAVA_HOME=/userdata/jdk/ /userdata/jdk/jre/bin/java -jar /userdata/system/pixelcade/pixelcade.jar -m stream -c animations -g 0arcade-legendsr2
 
 #let's write the version so the next time the user can try and know if they need to upgrade
 echo $version > /userdata/system/pixelcade/pixelcade-version
