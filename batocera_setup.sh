@@ -93,7 +93,6 @@ if [ "$java_installed" = false ] ; then #only install java if it doesn't exist
   mkdir /userdata/jdk
   cd /userdata/jdk
   curl -kLo - https://cdn.azul.com/zulu-embedded/bin/zulu8.58.0.13-ca-jdk8.0.312-linux_aarch64.tar.gz | gunzip -c | tar -x --strip-components=1
-  grep -qxF 'JAVA_HOME=/userdata/jdk/ /userdata/jdk/jre/bin/java -jar /userdata/system/pixelcade/pixelweb.jar -b &' /userdata/system/custom.sh 2> /dev/null || echo 'JAVA_HOME=/userdata/jdk/ /userdata/jdk/jre/bin/java -jar /userdata/system/pixelcade/pixelweb.jar -b &' >> /userdata/system/custom.sh
 fi
 
 cd /userdata/system
@@ -104,6 +103,10 @@ rm -f master.zip
 
 curl -kLo /userdata/system/scripts/pixelcade.sh https://raw.githubusercontent.com/ACustomArcade/batocera-pixelcade/main/userdata/system/scripts/pixelcade.sh
 chmod +x /userdata/system/scripts/pixelcade.sh
+
+curl -kLo /userdata/system/pixelcade-init.sh https://raw.githubusercontent.com/ACustomArcade/batocera-pixelcade/main/userdata/system/pixelcade-init.sh
+chmod +x /userdata/system/pixelcade-init.sh
+grep -qxF '/userdata/system/pixelcade-init.sh $1' /userdata/system/custom.sh 2> /dev/null || echo '/userdata/system/pixelcade-init.sh $1' >> /userdata/system/custom.sh
 
 JAVA_HOME=/userdata/jdk/ /userdata/jdk/jre/bin/java -jar /userdata/system/pixelcade/pixelweb.jar -b & #run pixelweb in the background
 
