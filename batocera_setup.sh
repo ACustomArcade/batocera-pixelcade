@@ -101,6 +101,7 @@ unzip -q master.zip
 mv pixelcade-master/ pixelcade
 rm -f master.zip
 
+mkdir -p /userdata/system/scripts
 curl -kLo /userdata/system/scripts/pixelcade.sh https://raw.githubusercontent.com/ACustomArcade/batocera-pixelcade/main/userdata/system/scripts/pixelcade.sh
 chmod +x /userdata/system/scripts/pixelcade.sh
 
