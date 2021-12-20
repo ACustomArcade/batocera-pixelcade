@@ -1,2 +1,4 @@
 #!/bin/bash
-JAVA_HOME=/userdata/jdk/ /userdata/jdk/jre/bin/java -jar /userdata/system/pixelcade/pixelcade.jar -m stream -c ${1} -g ${2} -t "${3}"
+curl -G \
+        --data-urlencode "t=${3}" \
+        http://127.0.0.1:8080/arcade/stream/${1}/`basename ${2}`
