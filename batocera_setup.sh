@@ -91,10 +91,16 @@ fi
 
 if [ "$java_installed" = false ] ; then #only install java if it doesn't exist
   printf "${yellow}Installing Zulu Java 8...${white}\n"
-  mkdir /userdata/jdk
+  mkdir -p /userdata/jdk
   cd /userdata/jdk
   curl -kLo - https://cdn.azul.com/zulu-embedded/bin/zulu8.58.0.13-ca-jdk8.0.312-linux_aarch64.tar.gz | gunzip -c | tar -x --strip-components=1
 fi
+
+cd /userdata/system
+curl -kLO https://github.com/alinke/pixelcade/archive/refs/heads/master.zip
+unzip -q master.zip
+mv pixelcade-master/ pixelcade
+rm -f master.zip
 
 if [[ `cat /usr/share/batocera/batocera.version` = 32* ]]; then
       echo "Stopping EmulationStation..."
@@ -107,12 +113,6 @@ if [[ `cat /usr/share/batocera/batocera.version` = 32* ]]; then
       echo "Starting EmulationStation..."
       /etc/init.d/S31emulationstation start
 fi
-
-cd /userdata/system
-curl -kLO https://github.com/alinke/pixelcade/archive/refs/heads/master.zip
-unzip -q master.zip
-mv pixelcade-master/ pixelcade
-rm -f master.zip
 
 mkdir -p /userdata/systems/configs/emulationstation/scripts/game-selected
 curl -kLo /userdata/system/configs/emulationstation/scripts/game-selected/pixelcade.sh https://raw.githubusercontent.com/ACustomArcade/batocera-pixelcade/main/userdata/system/configs/emulationstation/scripts/game-selected/pixelcade.sh
