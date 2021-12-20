@@ -9,7 +9,7 @@ blue='\033[0;34m'
 magenta='\033[0;35m'
 white='\033[0;37m'
 reset='\033[0m'
-version=1  #increment this as the script is updated
+version=2  #increment this as the script is updated
 
 cat << "EOF"
        _          _               _
@@ -101,6 +101,12 @@ unzip -q master.zip
 mv pixelcade-master/ pixelcade
 rm -f master.zip
 
+mkdir -p /userdata/systems/configs/emulationstation/scripts/game-selected
+curl -kLo /userdata/system/configs/emulationstation/scripts/game-selected/pixelcade.sh https://raw.githubusercontent.com/ACustomArcade/batocera-pixelcade/main/userdata/system/configs/emulationstation/scripts/game-selected/pixelcade.sh
+
+mkdir -p /userdata/systems/configs/emulationstation/scripts/system-selected
+curl -kLo /userdata/system/configs/emulationstation/scripts/system-selected/pixelcade.sh https://raw.githubusercontent.com/ACustomArcade/batocera-pixelcade/main/userdata/system/configs/emulationstation/scripts/system-selected/pixelcade.sh
+
 mkdir -p /userdata/system/scripts
 curl -kLo /userdata/system/scripts/pixelcade.sh https://raw.githubusercontent.com/ACustomArcade/batocera-pixelcade/main/userdata/system/scripts/pixelcade.sh
 chmod +x /userdata/system/scripts/pixelcade.sh
@@ -111,8 +117,9 @@ grep -qxF '/userdata/system/pixelcade-init.sh $1' /userdata/system/custom.sh 2> 
 
 JAVA_HOME=/userdata/jdk/ /userdata/jdk/jre/bin/java -jar /userdata/system/pixelcade/pixelweb.jar -b & #run pixelweb in the background
 
+curl -kLo /userdata/system/pixelcade/user/batocera.png https://github.com/ACustomArcade/batocera-pixelcade/raw/main/userdata/system/pixelcade/user/batocera.png
 sleep 5
-JAVA_HOME=/userdata/jdk/ /userdata/jdk/jre/bin/java -jar /userdata/system/pixelcade/pixelcade.jar -m stream -c animations -g 0arcade-legendsr2
+JAVA_HOME=/userdata/jdk/ /userdata/jdk/jre/bin/java -jar /userdata/system/pixelcade/pixelcade.jar -m stream -c user -g batocera
 
 #let's write the version so the next time the user can try and know if they need to upgrade
 echo $version > /userdata/system/pixelcade/pixelcade-version
