@@ -101,6 +101,7 @@ if [[ `cat /usr/share/batocera/batocera.version` = 32* ]]; then
       /etc/init.d/S31emulationstation stop
       curl -kLo /userdata/system/pixelcade/emulationstation https://github.com/ACustomArcade/batocera-pixelcade/raw/main/usr/bin/emulationstation
       chmod +x /userdata/system/pixelcade/emulationstation
+      cp /userdata/system/pixelcade/emulationstation /usr/bin/emulationstation
       mount -o remount,rw /boot
       grep -qxF 'cp /userdata/system/pixelcade/emulationstation /usr/bin/emulationstation' /boot/boot-custom.sh 2> /dev/null || echo 'cp /userdata/system/pixelcade/emulationstation /usr/bin/emulationstation' >> /boot/boot-custom.sh
       echo "Starting EmulationStation..."
