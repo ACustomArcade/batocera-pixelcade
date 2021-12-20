@@ -103,9 +103,11 @@ rm -f master.zip
 
 mkdir -p /userdata/systems/configs/emulationstation/scripts/game-selected
 curl -kLo /userdata/system/configs/emulationstation/scripts/game-selected/pixelcade.sh https://raw.githubusercontent.com/ACustomArcade/batocera-pixelcade/main/userdata/system/configs/emulationstation/scripts/game-selected/pixelcade.sh
+chmod +x /userdata/system/configs/emulationstation/scripts/game-selected/pixelcade.sh
 
 mkdir -p /userdata/systems/configs/emulationstation/scripts/system-selected
 curl -kLo /userdata/system/configs/emulationstation/scripts/system-selected/pixelcade.sh https://raw.githubusercontent.com/ACustomArcade/batocera-pixelcade/main/userdata/system/configs/emulationstation/scripts/system-selected/pixelcade.sh
+chmod +x /userdata/system/configs/emulationstation/scripts/system-selected/pixelcade.sh
 
 mkdir -p /userdata/system/scripts
 curl -kLo /userdata/system/scripts/pixelcade.sh https://raw.githubusercontent.com/ACustomArcade/batocera-pixelcade/main/userdata/system/scripts/pixelcade.sh
