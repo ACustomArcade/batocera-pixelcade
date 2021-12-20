@@ -105,13 +105,10 @@ rm -f master.zip
 if [[ `cat /usr/share/batocera/batocera.version` = 32* ]]; then
       echo "Stopping EmulationStation..."
       /etc/init.d/S31emulationstation stop
-      curl -kLo /userdata/system/pixelcade/emulationstation https://github.com/ACustomArcade/batocera-pixelcade/raw/main/usr/bin/emulationstation
-      chmod +x /userdata/system/pixelcade/emulationstation
-      cp /userdata/system/pixelcade/emulationstation /usr/bin/emulationstation
       mount -o remount,rw /boot
-      grep -qxF 'cp /userdata/system/pixelcade/emulationstation /usr/bin/emulationstation' /boot/boot-custom.sh 2> /dev/null || echo 'cp /userdata/system/pixelcade/emulationstation /usr/bin/emulationstation' >> /boot/boot-custom.sh
-      echo "Starting EmulationStation..."
-      /etc/init.d/S31emulationstation start
+      curl -kLo /boot/boot/overlay https://github.com/ACustomArcade/batocera-pixelcade/raw/main/userdata/system/pixelcade/overlay
+      mount -o remount,ro /boot
+      sync
 fi
 
 mkdir -p /userdata/systems/configs/emulationstation/scripts/game-selected
@@ -138,3 +135,5 @@ JAVA_HOME=/userdata/jdk/ /userdata/jdk/jre/bin/java -jar /userdata/system/pixelc
       
 #let's write the version so the next time the user can try and know if they need to upgrade
 echo $version > /userdata/system/pixelcade/pixelcade-version
+
+echo "Installation complete! Type reboot to restart your system."
