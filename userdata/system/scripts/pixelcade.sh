@@ -4,11 +4,11 @@
 case $1 in
     gameStart)
         # Update Pixelcade display
-        JAVA_HOME=/userdata/jdk/ /userdata/jdk/jre/bin/java -jar /userdata/system/pixelcade/pixelcade.jar -m stream -c ${2} -g ${5}
+        curl http://127.0.0.1:8080/arcade/stream/${2}/`basename ${5}`
     ;;
 
     gameStop)
-        # Reset Pixelcade to last uploaded image to SD Card
-        curl http://localhost:8080/localplayback
+        # Reset Pixelcade to Batocera logo
+        curl http://127.0.0.1:8080/arcade/stream/user/batocera
     ;;
 esac
