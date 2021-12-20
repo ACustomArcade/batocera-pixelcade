@@ -95,6 +95,16 @@ if [ "$java_installed" = false ] ; then #only install java if it doesn't exist
   curl -kLo - https://cdn.azul.com/zulu-embedded/bin/zulu8.58.0.13-ca-jdk8.0.312-linux_aarch64.tar.gz | gunzip -c | tar -x --strip-components=1
 fi
 
+if [[ `cat /usr/share/batocera/batocera.version` = 32* ]]; then
+      echo "Stopping EmulationStation..."
+      /etc/init.d/S31emulationstation stop
+      curl -kLo /userdata/system/pixelcade/emulationstation https://github.com/ACustomArcade/batocera-pixelcade/raw/main/usr/bin/emulationstation
+      chmod +x /userdata/system/pixelcade/emulationstation
+      grep -qxF 'cp /userdata/system/pixelcade/emulationstation /usr/bin/emulationstation' /boot/boot-custom.sh 2> /dev/null || echo 'cp /userdata/system/pixelcade/emulationstation /usr/bin/emulationstation' >> /boot/boot-custom.sh
+      echo "Starting EmulationStation..."
+      /etc/init.d/S31emulationstation start
+fi
+
 cd /userdata/system
 curl -kLO https://github.com/alinke/pixelcade/archive/refs/heads/master.zip
 unzip -q master.zip
@@ -122,12 +132,6 @@ JAVA_HOME=/userdata/jdk/ /userdata/jdk/jre/bin/java -jar /userdata/system/pixelc
 curl -kLo /userdata/system/pixelcade/user/batocera.png https://github.com/ACustomArcade/batocera-pixelcade/raw/main/userdata/system/pixelcade/user/batocera.png
 sleep 5
 JAVA_HOME=/userdata/jdk/ /userdata/jdk/jre/bin/java -jar /userdata/system/pixelcade/pixelcade.jar -m stream -c user -g batocera
-
-if [[ `cat /usr/share/batocera/batocera.version` = 32* ]]; then
-      curl -kLo /userdata/system/pixelcade/emulationstation https://github.com/ACustomArcade/batocera-pixelcade/raw/main/usr/bin/emulationstation
-      chmod +x /userdata/system/pixelcade/emulationstation
-      grep -qxF 'cp /userdata/system/pixelcade/emulationstation /usr/bin/emulationstation' /boot/boot-custom.sh 2> /dev/null || echo 'cp /userdata/system/pixelcade/emulationstation /usr/bin/emulationstation' >> /boot/boot-custom.sh
-fi
       
 #let's write the version so the next time the user can try and know if they need to upgrade
 echo $version > /userdata/system/pixelcade/pixelcade-version
