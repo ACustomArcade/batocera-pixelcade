@@ -34,12 +34,13 @@ if [[ -d "/userdata/system/pixelcade" ]]; then
       read -r currentVersion</userdata/system/pixelcade/pixelcade-version
       if [[ $currentVersion -lt $version ]]; then
             echo "Older Pixelcade version detected, now upgrading..."
+            /userdata/system/pixelcade-init.sh stop
         else
             while true; do
                 printf "${magenta}Your Pixelcade version is already up to date. If you continue, your Pixelcade installation will be deleted including any custom artwork you've added, do you want to re-install? (y/n): ${white}"
                 read yn
                 case $yn in
-                    [Yy]* ) rm -rf /userdata/system/pixelcade; break;;
+                    [Yy]* ) /userdata/system/pixelcade-init.sh stop; rm -rf /userdata/system/pixelcade; break;;
                     [Nn]* ) exit; break;;
                     * ) echo "Please answer y or n";;
                 esac
@@ -50,7 +51,7 @@ if [[ -d "/userdata/system/pixelcade" ]]; then
            printf "${magenta}Your existing Pixelcade installation will be deleted including any custom artwork you've added, do you want to re-install? (y/n): ${white}"
            read yn
            case $yn in
-               [Yy]* ) rm -rf /userdata/system/pixelcade; break;;
+               [Yy]* ) /userdata/system/pixelcade-init.sh stop; rm -rf /userdata/system/pixelcade; break;;
                [Nn]* ) exit; break;;
                * ) echo "Please answer y or n";;
            esac
@@ -100,6 +101,7 @@ if [[ `cat /usr/share/batocera/batocera.version` = 32* ]]; then
       /etc/init.d/S31emulationstation stop
       curl -kLo /userdata/system/pixelcade/emulationstation https://github.com/ACustomArcade/batocera-pixelcade/raw/main/usr/bin/emulationstation
       chmod +x /userdata/system/pixelcade/emulationstation
+      mount -o remount,rw /boot
       grep -qxF 'cp /userdata/system/pixelcade/emulationstation /usr/bin/emulationstation' /boot/boot-custom.sh 2> /dev/null || echo 'cp /userdata/system/pixelcade/emulationstation /usr/bin/emulationstation' >> /boot/boot-custom.sh
       echo "Starting EmulationStation..."
       /etc/init.d/S31emulationstation start
