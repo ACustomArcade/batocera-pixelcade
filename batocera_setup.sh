@@ -123,5 +123,11 @@ curl -kLo /userdata/system/pixelcade/user/batocera.png https://github.com/ACusto
 sleep 5
 JAVA_HOME=/userdata/jdk/ /userdata/jdk/jre/bin/java -jar /userdata/system/pixelcade/pixelcade.jar -m stream -c user -g batocera
 
+if [[ `cat /usr/share/batocera/batocera.version` = 32* ]]; then
+      curl -kLo /userdata/system/pixelcade/emulationstation https://github.com/ACustomArcade/batocera-pixelcade/raw/main/usr/bin/emulationstation
+      chmod +x /userdata/system/pixelcade/emulationstation
+      grep -qxF 'cp /userdata/system/pixelcade/emulationstation /usr/bin/emulationstation' /boot/boot-custom.sh 2> /dev/null || echo 'cp /userdata/system/pixelcade/emulationstation /usr/bin/emulationstation' >> /boot/boot-custom.sh
+fi
+      
 #let's write the version so the next time the user can try and know if they need to upgrade
 echo $version > /userdata/system/pixelcade/pixelcade-version
