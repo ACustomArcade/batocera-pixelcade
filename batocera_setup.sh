@@ -111,11 +111,11 @@ if [[ `cat /usr/share/batocera/batocera.version` = 32* ]]; then
       sync
 fi
 
-mkdir -p /userdata/systems/configs/emulationstation/scripts/game-selected
+mkdir -p /userdata/system/configs/emulationstation/scripts/game-selected
 curl -kLo /userdata/system/configs/emulationstation/scripts/game-selected/pixelcade.sh https://raw.githubusercontent.com/ACustomArcade/batocera-pixelcade/main/userdata/system/configs/emulationstation/scripts/game-selected/pixelcade.sh
 chmod +x /userdata/system/configs/emulationstation/scripts/game-selected/pixelcade.sh
 
-mkdir -p /userdata/systems/configs/emulationstation/scripts/system-selected
+mkdir -p /userdata/system/configs/emulationstation/scripts/system-selected
 curl -kLo /userdata/system/configs/emulationstation/scripts/system-selected/pixelcade.sh https://raw.githubusercontent.com/ACustomArcade/batocera-pixelcade/main/userdata/system/configs/emulationstation/scripts/system-selected/pixelcade.sh
 chmod +x /userdata/system/configs/emulationstation/scripts/system-selected/pixelcade.sh
 
