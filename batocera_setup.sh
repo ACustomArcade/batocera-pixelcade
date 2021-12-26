@@ -99,10 +99,10 @@ if [ "$java_installed" = false ] ; then
 fi
 
 cd /tmp
-curl -kLO https://github.com/alinke/pixelcade/archive/refs/heads/master.zip
-unzip -q master.zip
+curl -kLO /tmp/pixelcade-master.zip https://github.com/alinke/pixelcade/archive/refs/heads/master.zip
+unzip -q pixelcade-master.zip
 mv pixelcade-master/ /userdata/system/pixelcade
-rm -f master.zip
+rm -f pixelcade-master.zip
 
 # pixelcade required patches were added in batocera v33
 if [[ `cat /usr/share/batocera/batocera.version` = 32* ]]; then
