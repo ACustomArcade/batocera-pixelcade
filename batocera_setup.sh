@@ -9,7 +9,7 @@ blue='\033[0;34m'
 magenta='\033[0;35m'
 white='\033[0;37m'
 reset='\033[0m'
-version=2  #increment this as the script is updated
+version=3  #increment this as the script is updated
 
 cat << "EOF"
        _          _               _
@@ -35,6 +35,8 @@ if [[ -d "/userdata/system/pixelcade" ]]; then
       if [[ $currentVersion -lt $version ]]; then
             echo "Older Pixelcade version detected, now upgrading..."
             /userdata/system/pixelcade-init.sh stop
+            # cleaning up older installers
+            mv /userdata/jdk /userdata/system/
         else
             while true; do
                 printf "${magenta}Your Pixelcade version is already up to date. If you continue, your Pixelcade installation will be deleted including any custom artwork you've added, do you want to re-install? (y/n): ${white}"
@@ -78,34 +80,29 @@ if cat /proc/device-tree/model | grep -q 'Pi Zero W'; then
    pizero=true
 fi
 
-if type -p java ; then
+if [[ -x "/userdata/system/jdk/bin/java" ]]; then
   printf "${yellow}Java already installed, skipping...\n"
   java_installed=true
-elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]];  then
-  printf "${yellow}Java already installed, skipping...\n"
-  java_installed=true
-else
-   printf "${yellow}Java not found, let's install Java...${white}\n"
-   java_installed=false
 fi
 
-if [ "$java_installed" = false ] ; then #only install java if it doesn't exist
+if [ "$java_installed" = false ] ; then
   printf "${yellow}Installing Zulu Java 8...${white}\n"
-  mkdir -p /userdata/jdk
-  cd /userdata/jdk
+  mkdir -p /userdata/system/jdk
+  cd /userdata/system/jdk
   curl -kLo - https://cdn.azul.com/zulu-embedded/bin/zulu8.58.0.13-ca-jdk8.0.312-linux_aarch64.tar.gz | gunzip -c | tar -x --strip-components=1
 fi
 
-cd /userdata/system
+cd /tmp
 curl -kLO https://github.com/alinke/pixelcade/archive/refs/heads/master.zip
 unzip -q master.zip
-mv pixelcade-master/ pixelcade
-rm -f master.zip
+mv pixelcade-master/ /userdata/system/pixelcade
 
+# pixelcade required patches were added in batocera v33
 if [[ `cat /usr/share/batocera/batocera.version` = 32* ]]; then
-      echo "Stopping EmulationStation..."
+      printf "${yellow}Stopping EmulationStation...\n"
       /etc/init.d/S31emulationstation stop
       mount -o remount,rw /boot
+      printf "${yellow}Copying patched EmulationStation...\n"
       curl -kLo /boot/boot/overlay https://github.com/ACustomArcade/batocera-pixelcade/raw/main/userdata/system/pixelcade/overlay
       mount -o remount,ro /boot
       sync
@@ -127,11 +124,11 @@ curl -kLo /userdata/system/pixelcade-init.sh https://raw.githubusercontent.com/A
 chmod +x /userdata/system/pixelcade-init.sh
 grep -qxF '/userdata/system/pixelcade-init.sh $1' /userdata/system/custom.sh 2> /dev/null || echo '/userdata/system/pixelcade-init.sh $1' >> /userdata/system/custom.sh
 
-JAVA_HOME=/userdata/jdk/ /userdata/jdk/jre/bin/java -jar /userdata/system/pixelcade/pixelweb.jar -b & #run pixelweb in the background
+JAVA_HOME=/userdata/system/jdk/ /userdata/system/jdk/jre/bin/java -jar /userdata/system/pixelcade/pixelweb.jar -b & #run pixelweb in the background
 
 curl -kLo /userdata/system/pixelcade/user/batocera.png https://github.com/ACustomArcade/batocera-pixelcade/raw/main/userdata/system/pixelcade/user/batocera.png
 sleep 5
-JAVA_HOME=/userdata/jdk/ /userdata/jdk/jre/bin/java -jar /userdata/system/pixelcade/pixelcade.jar -m stream -c user -g batocera
+JAVA_HOME=/userdata/system/jdk/ /userdata/system/jdk/jre/bin/java -jar /userdata/system/pixelcade/pixelcade.jar -m stream -c user -g batocera
       
 #let's write the version so the next time the user can try and know if they need to upgrade
 echo $version > /userdata/system/pixelcade/pixelcade-version
