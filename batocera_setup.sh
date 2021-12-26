@@ -36,8 +36,13 @@ if [[ -d "/userdata/system/pixelcade" ]]; then
             echo "Older Pixelcade version detected, now upgrading..."
             /userdata/system/pixelcade-init.sh stop
             # cleaning up older installers
-            rm -rf /userdata/jdk
+            if [[ -d "/userdata/jdk" ]]; then
+              rm -rf /userdata/jdk
+            fi
             sed -i '/\/userdata\/system\/pixelcade-init.sh/d' /userdata/system/custom.sh
+            if [[ -f "/userdata/system/gpionext-init.sh" ]];  then
+              rm /userdata/system/gpionext-init.sh
+            fi
         else
             while true; do
                 printf "${magenta}Your Pixelcade version is already up to date. If you continue, your Pixelcade installation will be deleted including any custom artwork you've added, do you want to re-install? (y/n): ${white}"
