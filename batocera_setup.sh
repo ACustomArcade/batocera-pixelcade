@@ -34,7 +34,7 @@ if [[ -d "/userdata/system/pixelcade" ]]; then
       read -r currentVersion</userdata/system/pixelcade/pixelcade-version
       if [[ $currentVersion -lt $version ]]; then
             echo "Older Pixelcade version detected, now upgrading..."
-            /userdata/system/pixelcade-init.sh stop
+            /userdata/system/lpcb/init/pixelcade-init.sh stop
             # cleaning up older installers
             if [[ -d "/userdata/jdk" ]]; then
               rm -rf /userdata/jdk
