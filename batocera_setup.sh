@@ -40,8 +40,8 @@ if [[ -d "/userdata/system/pixelcade" ]]; then
               rm -rf /userdata/jdk
             fi
             sed -i '/\/userdata\/system\/pixelcade-init.sh/d' /userdata/system/custom.sh
-            if [[ -f "/userdata/system/gpionext-init.sh" ]];  then
-              rm /userdata/system/gpionext-init.sh
+            if [[ -f "/userdata/system/pixelcade-init.sh" ]];  then
+              rm /userdata/system/pixelcade-init.sh
             fi
         else
             while true; do
