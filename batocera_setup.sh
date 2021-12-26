@@ -48,7 +48,7 @@ if [[ -d "/userdata/system/pixelcade" ]]; then
                 printf "${magenta}Your Pixelcade version is already up to date. If you continue, your Pixelcade installation will be deleted including any custom artwork you've added, do you want to re-install? (y/n): ${white}"
                 read yn
                 case $yn in
-                    [Yy]* ) /userdata/system/pixelcade-init.sh stop; rm -rf /userdata/system/pixelcade; break;;
+                    [Yy]* ) /userdata/system/lpcb/init/pixelcade-init.sh stop; rm -rf /userdata/system/pixelcade; break;;
                     [Nn]* ) exit; break;;
                     * ) echo "Please answer y or n";;
                 esac
