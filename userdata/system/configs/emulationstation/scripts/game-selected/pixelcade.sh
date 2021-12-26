@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "${1} ${2} ${3}" >> /userdata/system/logs/test.log
+
 system="${1}"
 rom="${2}"
 romname="${3}"
