@@ -99,7 +99,7 @@ if [ "$java_installed" = false ] ; then
 fi
 
 cd /tmp
-curl -kLO /tmp/pixelcade-master.zip https://github.com/alinke/pixelcade/archive/refs/heads/master.zip
+curl -kLo /tmp/pixelcade-master.zip https://github.com/alinke/pixelcade/archive/refs/heads/master.zip
 unzip -q pixelcade-master.zip
 mv pixelcade-master/ /userdata/system/pixelcade
 rm -f pixelcade-master.zip
