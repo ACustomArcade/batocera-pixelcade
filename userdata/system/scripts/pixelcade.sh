@@ -1,10 +1,20 @@
 #!/bin/bash
 # Pixelcade marquee update script for Batocera
 
-case $1 in
+action=${1}
+systemName=${2}
+emulator=${3}
+core=${4}
+rom=${5}
+
+if [[ "${systemName}" == "fbneo" ]]; then
+        systemName="mame"
+fi
+
+case $action in
     gameStart)
         # Update Pixelcade display
-        curl http://127.0.0.1:8080/arcade/stream/${2}/`basename ${5}`
+        curl http://127.0.0.1:8080/arcade/stream/${systemName}/`basename ${rom}`
     ;;
 
     gameStop)
