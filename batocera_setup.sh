@@ -36,7 +36,8 @@ if [[ -d "/userdata/system/pixelcade" ]]; then
             echo "Older Pixelcade version detected, now upgrading..."
             /userdata/system/pixelcade-init.sh stop
             # cleaning up older installers
-            mv /userdata/jdk /userdata/system/
+            rm -rf /userdata/jdk
+            sed -i '/\/userdata\/system\/pixelcade-init.sh/d' /userdata/system/custom.sh
         else
             while true; do
                 printf "${magenta}Your Pixelcade version is already up to date. If you continue, your Pixelcade installation will be deleted including any custom artwork you've added, do you want to re-install? (y/n): ${white}"
@@ -120,9 +121,10 @@ mkdir -p /userdata/system/scripts
 curl -kLo /userdata/system/scripts/pixelcade.sh https://raw.githubusercontent.com/ACustomArcade/batocera-pixelcade/main/userdata/system/scripts/pixelcade.sh
 chmod +x /userdata/system/scripts/pixelcade.sh
 
-curl -kLo /userdata/system/pixelcade-init.sh https://raw.githubusercontent.com/ACustomArcade/batocera-pixelcade/main/userdata/system/pixelcade-init.sh
-chmod +x /userdata/system/pixelcade-init.sh
-grep -qxF '/userdata/system/pixelcade-init.sh $1' /userdata/system/custom.sh 2> /dev/null || echo '/userdata/system/pixelcade-init.sh $1' >> /userdata/system/custom.sh
+mkdir -p /userdata/system/lpcb/init
+curl -kLo /userdata/system/lpcb/init/pixelcade-init.sh https://raw.githubusercontent.com/ACustomArcade/batocera-pixelcade/main/userdata/system/pixelcade-init.sh
+chmod +x /userdata/system/lpcb/init/pixelcade-init.sh
+grep -qxF '/userdata/system/lpcb/init/pixelcade-init.sh $1' /userdata/system/custom.sh 2> /dev/null || echo '/userdata/system/lpcb/init/pixelcade-init.sh $1' >> /userdata/system/custom.sh
 
 JAVA_HOME=/userdata/system/jdk/ /userdata/system/jdk/jre/bin/java -jar /userdata/system/pixelcade/pixelweb.jar -b & #run pixelweb in the background
 
