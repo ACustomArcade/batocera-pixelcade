@@ -7,9 +7,14 @@ emulator=${3}
 core=${4}
 rom=${5}
 
-if [[ "${systemName}" == "fbneo" ]]; then
-        systemName="mame"
-fi
+case ${systemName} in
+  fbneo)
+    systemName="mame"
+    ;;
+  scummvm)
+    rom="${rom%.*}"
+    ;;
+esac
 
 case $action in
     gameStart)
