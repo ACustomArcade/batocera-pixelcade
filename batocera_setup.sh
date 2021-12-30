@@ -132,7 +132,8 @@ curl -kLo /userdata/system/lpcb/init/pixelcade-init.sh https://raw.githubusercon
 chmod +x /userdata/system/lpcb/init/pixelcade-init.sh
 grep -qxF '/userdata/system/lpcb/init/pixelcade-init.sh $1' /userdata/system/custom.sh 2> /dev/null || echo '/userdata/system/lpcb/init/pixelcade-init.sh $1' >> /userdata/system/custom.sh
 
-JAVA_HOME=/userdata/system/jdk/ /userdata/system/jdk/jre/bin/java -jar /userdata/system/pixelcade/pixelweb.jar -b & #run pixelweb in the background
+curl -kLo /userdata/system/pixelcade/settings.ini https://github.com/ACustomArcade/batocera-pixelcade/raw/main/userdata/system/pixelcade/settings.ini
+JAVA_HOME=/userdata/system/jdk/ /userdata/system/jdk/jre/bin/java -Dioio.SerialPorts=ttyACM0 -jar /userdata/system/pixelcade/pixelweb.jar -b & #run pixelweb in the background
 
 curl -kLo /userdata/system/pixelcade/user/batocera.png https://github.com/ACustomArcade/batocera-pixelcade/raw/main/userdata/system/pixelcade/user/batocera.png
 sleep 5
