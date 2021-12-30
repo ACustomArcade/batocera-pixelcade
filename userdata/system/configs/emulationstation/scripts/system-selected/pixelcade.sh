@@ -3,6 +3,12 @@
 system="${1}"
 systemname="${2}"
 
+case ${system} in
+  arcade)
+    system="mame-arcade"
+    ;;
+esac
+
 curl -G \
   --data-urlencode "event=FEScroll" \
   --data-urlencode "t=${systemname}" \
