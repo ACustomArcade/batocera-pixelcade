@@ -18,5 +18,6 @@ case ${system} in
 esac
 
 curl -G \
+        --data-urlencode "event=FEScroll" \
         --data-urlencode "t=${romname}" \
         http://127.0.0.1:8080/arcade/stream/${system}/`basename ${rom}`
