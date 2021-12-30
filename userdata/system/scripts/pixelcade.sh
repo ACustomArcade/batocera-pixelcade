@@ -19,9 +19,10 @@ esac
 case $action in
     gameStart)
         # Update Pixelcade display
-        curl http://127.0.0.1:8080/arcade/stream/${systemName}/`basename ${rom}`
+        curl -G \
+            --data-urlencode "event=GameStart" \
+            http://127.0.0.1:8080/arcade/stream/${systemName}/`basename ${rom}`
     ;;
-
     gameStop)
         # Reset Pixelcade to Batocera logo
         curl http://127.0.0.1:8080/arcade/stream/user/batocera
