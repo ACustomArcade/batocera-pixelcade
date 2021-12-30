@@ -132,13 +132,12 @@ curl -kLo /userdata/system/lpcb/init/pixelcade-init.sh https://raw.githubusercon
 chmod +x /userdata/system/lpcb/init/pixelcade-init.sh
 grep -qxF '/userdata/system/lpcb/init/pixelcade-init.sh $1' /userdata/system/custom.sh 2> /dev/null || echo '/userdata/system/lpcb/init/pixelcade-init.sh $1' >> /userdata/system/custom.sh
 
-curl -kLo /userdata/system/pixelcade/settings.ini https://github.com/ACustomArcade/batocera-pixelcade/raw/main/userdata/system/pixelcade/settings.ini
+curl -kLo /userdata/system/pixelcade/user/batocera.png https://github.com/ACustomArcade/batocera-pixelcade/raw/main/userdata/system/pixelcade/user/batocera.png
+cp /userdata/system/pixelcade/user/batocera.png /userdata/system/pixelcade/console/batocera.png
+batocera-settings-set -f /userdata/system/pixelcade/settings.ini startupLEDMarqueeName batocera
+cd /userdata/system/pixelcade
 JAVA_HOME=/userdata/system/jdk/ /userdata/system/jdk/jre/bin/java -Dioio.SerialPorts=ttyACM0 -jar /userdata/system/pixelcade/pixelweb.jar -b & #run pixelweb in the background
 
-curl -kLo /userdata/system/pixelcade/user/batocera.png https://github.com/ACustomArcade/batocera-pixelcade/raw/main/userdata/system/pixelcade/user/batocera.png
-sleep 5
-JAVA_HOME=/userdata/system/jdk/ /userdata/system/jdk/jre/bin/java -jar /userdata/system/pixelcade/pixelcade.jar -m stream -c user -g batocera
-      
 #let's write the version so the next time the user can try and know if they need to upgrade
 echo $version > /userdata/system/pixelcade/pixelcade-version
 
