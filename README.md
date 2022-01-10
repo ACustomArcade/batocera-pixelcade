@@ -1,5 +1,8 @@
 # batocera-pixelcade
 
+# This installer is no longer needed!
+https://pixelcade.org/batocera
+
 Pixelcade/BitPixel installer for Batocera using LPCB.
 
 Currently supports the following devices:
